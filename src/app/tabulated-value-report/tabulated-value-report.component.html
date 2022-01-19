@@ -1,0 +1,107 @@
+
+<br>
+<div class="container-md">   
+    <div class="card">
+        <div class="card-header">
+            Marley Vargas
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">Reporte de valor tabulado</h2>
+            <p class="card-text">seleccione las fechas para consultar el reporte</p>
+            
+            <mat-form-field appearance="fill">
+                <mat-label>Fecha inicial</mat-label>
+                <input matInput [matDatepicker]="picker1" [formControl]="dateInit">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Fecha final</mat-label>
+                <input matInput [matDatepicker]="picker2" [formControl]="dateEnd">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+
+            <button (click)="getData()" class="btn btn-primary">Consultar</button>
+            <p class="text-error">{{messageError}}</p>
+        </div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="card-body">
+            <ng-container *ngIf="data">
+
+                <h1>Resultado</h1>
+
+                <table class="table table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th *ngFor="let item of data" colspan="2">{{item.station}}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <thead>
+                                    <tr><td scope="col">Fecha</td></tr>
+                                    <tr *ngFor="let s of data[0].dStation">
+                                        <th>{{s.date | date:"dd/MM/yyyy"}}</th>
+                                    </tr> 
+                                </thead>
+                            </td>                                
+                            <td *ngFor="let item of data" colspan="2"> 
+                                <table>
+                                    <tr>
+                                        <td>Cantidad</td>
+                                        <td>Valor</td>
+                                    </tr>                            
+                                    <tr *ngFor="let s of item.dStation">
+                                        <td>{{s.quantity | number}}</td>
+                                        <td>{{s.value | currency:'USD'}}</td>
+                                    </tr> 
+                                </table>                                                                                  
+                            </td>   
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td *ngFor="let item of data" colspan="2"> 
+                                <table>
+                                    <tr>
+                                        <td>{{item.totals.totalsQuantity | number}}</td>
+                                        <td>{{item.totals.totalsValue | currency:'USD'}}</td>
+                                    </tr> 
+                                </table>                                                                                  
+                            </td>  
+                        </tr>
+                    </tbody>                       
+                </table> 
+
+                <div style="width: 18rem;">
+                    <table class="table table-bordered vertical-align: middle">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Totales</th>
+                                <td>Cantidad</td>
+                                <td>{{totals.totalsQuantity  | number}}</td>
+                            </tr> 
+                            <tr>
+                                <td>Valor</td>
+                                <td>{{totals.totalsValue | currency:'USD'}}</td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+            </ng-container>
+    
+            <div class="fixed-message info" *ngIf="!data">
+                <h4 class="fixed-message__title">No hay datos para mostrar</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+  
