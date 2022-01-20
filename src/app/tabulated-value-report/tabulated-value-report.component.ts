@@ -16,7 +16,7 @@ export class TabulatedValueReportComponent implements OnInit {
   data!: any[];
 
   dateInit = new FormControl(new Date('2021-09-01'));
-  dateEnd = new FormControl(new Date('2021-09-02'));
+  dateEnd = new FormControl(new Date('2021-09-30'));
 
   date = new FormControl(new Date());
 

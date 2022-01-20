@@ -98,9 +98,10 @@ export class CollectionsComponent implements OnInit {
       .subscribe(
         (res) => {
           if (res) {
-            console.log(res);
+            console.log(res)
             this.registrosConsultados = res.data;
             this.data = new MatTableDataSource(this.registrosConsultados);
+            this.data.paginator = this.paginator;
 
             length = res.meta.totalPages;
             pageSize = res.meta.pageSize;
@@ -111,8 +112,6 @@ export class CollectionsComponent implements OnInit {
             this.pageSize = res.meta.pageSize;
             this.hasNextPage = true;
             this.hasPreviousPage = false;
-
-            this.data.paginator = this.paginator;
 
             this.pageSizeOptions.push(this.totalRegister / 2);
 
@@ -129,6 +128,7 @@ export class CollectionsComponent implements OnInit {
   }
 
   pageEventClic(pageEvent: PageEvent) {
+    console.log(pageEvent)
     // if (pageEvent.length <= ((pageEvent.pageIndex + 1) * pageEvent.pageSize)) {
       this.paginaConsulta += 1;
       if(this.paginaConsulta <= this.totalPages){
