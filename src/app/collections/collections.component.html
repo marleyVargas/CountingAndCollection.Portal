@@ -1,0 +1,133 @@
+<br>
+<div class="container-md">   
+
+    <div class="card">
+        <div class="card-header">
+            Marley Vargas
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">Datos conteo y recaudo de vehículos</h2>
+            <p class="card-text">Seleccione los filtros que desea aplicar</p>
+            
+            <form class="example-form">
+                <mat-form-field appearance="fill">
+                    <mat-label>Fecha inicial</mat-label>
+                    <input matInput [matDatepicker]="picker1" [formControl]="dateInit">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+        
+                <mat-form-field appearance="fill">
+                    <mat-label>Fecha final</mat-label>
+                    <input matInput [matDatepicker]="picker2" [formControl]="dateEnd">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Estación</mat-label>
+                    <input matInput [formControl]="station">
+                </mat-form-field>
+            </form>
+
+            <button (click)="filter()" class="btn btn-primary">Consultar</button>
+            <p class="text-error">{{messageError}}</p>
+        </div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="card-body">
+            <ng-container *ngIf="data">
+                <h1>Resultados</h1>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Buscar:</mat-label>
+                    <input matInput (keyup)="filterData($event.target)" placeholder="Buscar" #input />
+                </mat-form-field>
+            
+                <div class="table-container">
+                    <table mat-table [dataSource]="data" matSort class="table table-bordered data-table">
+                        <ng-container matColumnDef="queryDate">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                <b>Fecha</b>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                {{ element.queryDate | date: "dd/MM/yyyy"}} 
+                            </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="station">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                <b>Estacion</b>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let element">{{ element.station }}
+                            </mat-cell>
+                        </ng-container>                   
+                        <ng-container matColumnDef="direction">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                <b>Sentido</b>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                {{ element.direction }}
+                            </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="hour">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                <b>Hora</b>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                {{ element.hour }}
+                            </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="category">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                <b>Categoria</b>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                {{ element.category }}
+                            </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="amount">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                <b>Cantidad</b>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                {{ element.amount }}
+                            </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="tabuledValue">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                <b>Valor Tabulado</b>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                {{ element.tabulatedValue }}
+                            </mat-cell>
+                        </ng-container>
+                        
+                        <mat-header-row *matHeaderRowDef="columnHeaders"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: columnHeaders"></mat-row>
+                
+                        <div class="not-data" *matNoDataRow>
+                            No se encontraron coincidencias con <em> "{{ input.value }}" </em>
+                        </div>
+                       
+                    </table>
+                    <h4 class="fixed-message__title">Total registros: {{totalRegister}}</h4>
+                    <mat-paginator #paginator 
+                        [length]="totalPages" 
+                        [pageSize]="pageSize" 
+                        [pageSizeOptions]="pageSizeOptions"            
+                        (page)="pageEventClic($event)"
+                        showFirstLastButtons
+                    >
+                  </mat-paginator>
+
+                </div>
+            </ng-container>
+
+            <div class="fixed-message info" *ngIf="!data">
+                <h4 class="fixed-message__title">No hay datos para mostrar</h4>
+            </div>
+        </div>
+    </div>
+
+</div>

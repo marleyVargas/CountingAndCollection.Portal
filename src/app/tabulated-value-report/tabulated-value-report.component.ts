@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {  PageEvent } from '@angular/material/paginator';
 import { VehicleService } from '../services/vehicle.service';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {  FormControl } from '@angular/forms';
 
 
 @Component({
@@ -45,7 +45,7 @@ export class TabulatedValueReportComponent implements OnInit {
     }
 
     this.vehicleService
-      .getDataByFilters(this.dateInit.value, this.dateEnd.value)
+      .getReport(this.dateInit.value, this.dateEnd.value)
       .subscribe(
         (res) => {
           if (res) {

@@ -7,6 +7,7 @@ import { catchError, map } from 'rxjs/operators';
 import { ApiManagementService } from './api-management.service';
 import { ToastService } from './toast.service';
 import { domainTransactional } from 'src/environments/environment';
+import { CollectionsFilter } from '../models/collections-filter';
 
 
 
@@ -27,9 +28,20 @@ export class VehicleService extends ApiManagementService {
     super(toastService);
   }
 
+  getDataByFilters(filter: CollectionsFilter): Observable<any> {
+    const url = `${domainTransactional}/Vehicle/GetCollection`;
+    let json = JSON.stringify(filter);
+    return (
+      this.http.post<ApiResponse<any>>(url, json, httpOptions())
+    ).pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  }
   
-  getDataByFilters(dateInit: Date, dateEnd: Date): Observable<any> {
-    const url = `${domainTransactional}/Vehicle`;
+  getReport(dateInit: Date, dateEnd: Date): Observable<any> {
+    const url = `${domainTransactional}/Vehicle/GetReportTabulatedValue`;
     let request = {
       createdDateInit : dateInit,
       createdDateFin : dateEnd
